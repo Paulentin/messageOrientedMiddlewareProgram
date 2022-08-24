@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.zabara.messaging.homework</groupId>
-	<artifactId>publisher</artifactId>
+	<artifactId>amq-consumer</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ActiveMQ-publisher</name>
-	<description>ActiveMQ publisher</description>
+	<name>activeMq-consumer</name>
+	<description>activeMq-consumer</description>
 	<properties>
 		<java.version>11</java.version>
 		<maven.compiler.source>11</maven.compiler.source>

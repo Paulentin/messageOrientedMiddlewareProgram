@@ -1,0 +1,12 @@
+server:
+  port: 8081
+spring:
+  activemq:
+    broker-url: tcp://localhost:61616
+    user: admin
+    password: admin
+activemq:
+  topic: VirtualTopic.TOPIC1
+logging:
+  level:
+    ROOT: INFO
