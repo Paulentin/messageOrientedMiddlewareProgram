@@ -43,6 +43,7 @@ public class JMSConfiguration {
     public DefaultJmsListenerContainerFactory defaultJmsListenerContainerFactory(ActiveMQConnectionFactory connectionFactory) {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
         factory.setConnectionFactory(connectionFactory);
+        factory.setConcurrency("3-10");
         return factory;
     }
 
@@ -52,6 +53,7 @@ public class JMSConfiguration {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
         factory.setConnectionFactory(connectionFactory);
         factory.setSubscriptionDurable(true);
+        factory.setPubSubDomain(true);
         factory.setClientId("durable");
         factory.setConcurrency("1");
         return factory;

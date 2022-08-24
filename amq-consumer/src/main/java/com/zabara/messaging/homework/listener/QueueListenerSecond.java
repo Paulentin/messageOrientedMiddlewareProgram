@@ -12,16 +12,16 @@ import javax.jms.TextMessage;
 
 @Slf4j
 @Component
-public class QueueListener {
+public class QueueListenerSecond {
 
     @Value("${activemq.queues.usual}")
     private String topic;
 
     @JmsListener(destination = "${activemq.queues.usual}", containerFactory = "topicListenerFactory",
-            subscription = "usualListener")
+    subscription = "usualListener")
     public void receiveMsqFromTopic(Message msg) throws JMSException {
         TextMessage textMessage = (TextMessage) msg;
         String message = textMessage.getText();
-        log.info("usual listener received msg:" + message + " from topic " + topic);
+        log.info("usual second listener received msg:" + message + " from topic " + topic);
     }
 }
