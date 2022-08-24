@@ -9,6 +9,9 @@ import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.core.JmsTemplate;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 @Configuration
 @EnableJms
 public class JMSConfiguration {
@@ -31,6 +34,7 @@ public class JMSConfiguration {
         connectionFactory.setBrokerURL(brokerUrl);
         connectionFactory.setUserName(brokerUser);
         connectionFactory.setPassword(brokerPassword);
+        connectionFactory.setTrustAllPackages(true);
         return connectionFactory;
     }
 

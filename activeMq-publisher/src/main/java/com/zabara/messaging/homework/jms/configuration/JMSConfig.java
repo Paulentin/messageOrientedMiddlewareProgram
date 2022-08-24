@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.annotation.EnableJms;
-import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.core.JmsTemplate;
 
 
@@ -22,10 +21,8 @@ public class JMSConfig {
     @Value("${spring.activemq.user}")
     private String brokerUser;
 
-
     @Value("${spring.activemq.password}")
     private String brokerPassword;
-
 
     @Bean
     public ActiveMQConnectionFactory connection() {
@@ -33,6 +30,7 @@ public class JMSConfig {
         connectionFactory.setBrokerURL(brokerUrl);
         connectionFactory.setUserName(brokerUser);
         connectionFactory.setPassword(brokerPassword);
+        connectionFactory.setTrustAllPackages(true);
         return connectionFactory;
     }
 
@@ -43,5 +41,4 @@ public class JMSConfig {
         jmsTemplate.setConnectionFactory(activeMQConnectionFactory);
         return jmsTemplate;
     }
-
 }
