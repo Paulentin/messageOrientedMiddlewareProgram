@@ -1,0 +1,74 @@
+server:
+  port: 8080
+republish: false
+spring:
+  rabbitmq:
+    virtual-host: 1-stream-function-receipt-with-retries
+  cloud:
+    stream:
+      function.definition: queue1Sink;queue2Sink;failedSink;deadletterSink
+      bindings:
+        queue1Sink-in-0:
+          destination: receipt-exchange
+          group: receipt-queue1
+          consumer:
+            # disable in-process retry, default is 3
+            max-attempts: 1
+        queue2Sink-in-0:
+          destination: receipt-exchange
+          group: receipt-queue2
+          consumer:
+            # disable in-process retry, default is 3
+            max-attempts: 1
+        failedSink-in-0:
+          destination: failed-exchange
+          group: failed-queue
+        deadletterSink-in-0:
+          destination: deadletter-exchange
+          group: deadletter-queue
+        source-out-0:
+          destination: receipt-exchange
+        failed-out-0:
+          destination: failed-exchange
+      rabbit:
+        bindings:
+          queue1Sink-in-0:
+            consumer:
+              ttl: 5000
+              maxLength: 5
+              overflowBehavior: reject-publish-dlx
+              queueNameGroupOnly: true
+              bindingRoutingKey: routing-queue1
+              # https://docs.spring.io/spring-cloud-stream/docs/current/reference/html/spring-cloud-stream-binder-rabbit.html#_retry_with_the_rabbitmq_binder
+              autoBindDlq: true
+              deadLetterExchange: retry-exchange
+              deadLetterQueueName: retry-queue
+              dlq-ttl: 5000
+              republishToDlq: true
+              dlqDeadLetterExchange:
+          queue2Sink-in-0:
+            consumer:
+              ttl: 5000
+              maxLength: 5
+              overflowBehavior: reject-publish-dlx
+              queueNameGroupOnly: true
+              bindingRoutingKey: routing-queue2
+              # https://docs.spring.io/spring-cloud-stream/docs/current/reference/html/spring-cloud-stream-binder-rabbit.html#_retry_with_the_rabbitmq_binder
+              autoBindDlq: true
+              deadLetterExchange: retry-exchange
+              deadLetterQueueName: retry-queue
+              dlq-ttl: 5000
+              republishToDlq: ${republish}
+              dlqDeadLetterExchange:
+          deadLetterSink-in-0:
+            consumer:
+              exchangeType: topic
+              queueNameGroupOnly: true
+              requeueRejected: true
+          failed-out-0:
+            producer:
+              exchangeType: topic
+          source-out-0:
+            producer:
+              exchangeType: topic
+              routingKeyExpression: headers['receipt']
