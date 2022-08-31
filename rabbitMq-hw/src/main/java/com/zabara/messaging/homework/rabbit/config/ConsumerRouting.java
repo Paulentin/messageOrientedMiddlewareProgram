@@ -5,7 +5,6 @@ import com.zabara.messaging.homework.rabbit.ReceiptConsumer;
 import com.zabara.messaging.homework.rabbit.controller.Receipt;
 import org.springframework.amqp.core.DeclarableCustomizer;
 import org.springframework.amqp.core.Queue;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.context.annotation.Bean;
 import org.springframework.messaging.Message;
@@ -17,7 +16,6 @@ import java.util.function.Consumer;
 @Component
 public class ConsumerRouting {
     @Bean
-    @ConditionalOnProperty(name = "republish", havingValue = "true")
     public DeclarableCustomizer declarableCustomizer() {
         return declarable -> {
             if (declarable instanceof Queue queue) {

@@ -1,6 +1,3 @@
-server:
-  port: 8080
-republish: false
 spring:
   rabbitmq:
     virtual-host: 1-stream-function-receipt-with-retries
@@ -41,7 +38,7 @@ spring:
               bindingRoutingKey: routing-queue1
               # https://docs.spring.io/spring-cloud-stream/docs/current/reference/html/spring-cloud-stream-binder-rabbit.html#_retry_with_the_rabbitmq_binder
               autoBindDlq: true
-              deadLetterExchange: retry-exchange
+              deadLetterExchange: deadletter-exchange
               deadLetterQueueName: retry-queue
               dlq-ttl: 5000
               republishToDlq: true
@@ -58,17 +55,22 @@ spring:
               deadLetterExchange: retry-exchange
               deadLetterQueueName: retry-queue
               dlq-ttl: 5000
-              republishToDlq: ${republish}
+              republishToDlq: true
               dlqDeadLetterExchange:
-          deadLetterSink-in-0:
+          failedSink-in-0:
             consumer:
               exchangeType: topic
               queueNameGroupOnly: true
               requeueRejected: true
-          failed-out-0:
-            producer:
+          deadletterSink-in-0:
+            consumer:
               exchangeType: topic
+              queueNameGroupOnly: true
+              requeueRejected: true
           source-out-0:
             producer:
               exchangeType: topic
               routingKeyExpression: headers['receipt']
+          failed-out-0:
+            producer:
+              exchangeType: topic
