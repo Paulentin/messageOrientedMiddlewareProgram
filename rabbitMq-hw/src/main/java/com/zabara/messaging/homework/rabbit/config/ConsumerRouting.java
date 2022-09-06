@@ -57,9 +57,7 @@ public class ConsumerRouting {
 
     @Bean
     public Consumer<Message<Receipt>> deadletterSink() {
-        return in -> System.out.println("DEADLETTER!!!! " + in.toString());
-
-//        return new FailedReceiptConsumer("deadMessagesConsumer");
+        return new FailedReceiptConsumer("deadMessagesConsumer");
     }
 
     private static void sleepWrapped(Duration duration) {

@@ -1,0 +1,20 @@
+spring:
+  kafka:
+
+    bootstrap-servers: localhost:29092
+    producer.value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      enable-auto-commit: true
+      auto-offset-reset: earliest
+
+      properties:
+        spring.json.trusted.packages: "com.zabara.messaging.homework.kafka.practicaltask1.*"
+
+kafka:
+  group:
+    id: randMessage-result-group
+  request:
+    topic: randMessage
+  retry:
+    topic: randMessage
