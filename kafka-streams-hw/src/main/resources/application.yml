@@ -1,0 +1,42 @@
+logging:
+  level:
+    root: WARN
+server:
+  port: 8081
+management:
+  endpoints:
+    web:
+      exposure:
+      include: '*'
+
+debug: true
+  spring.cloud.stream.kafka.streams.bindings.process-in-1.consumer.keySerde=CustomKeySerde
+  spring.cloud.stream.kafka.streams.bindings.process-in-1.consumer.valueSerde=io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
+spring:
+  kafka:
+    streams:
+      application-id: my-kafka-streams-application
+      state-dir: c:\tmp\kafka-streams
+      properties[default.key.serde]: org.apache.kafka.common.serialization.Serdes$StringSerde
+      properties[default.value.serde]: org.apache.kafka.common.serialization.Serdes$StringSerde
+      properties:
+      default:
+      deserialization:
+      exception:
+      handler: org.apache.kafka.streams.errors.LogAndContinueExceptionHandler
+      bootstrap-servers: localhost:9092
+      replication-factor: 1
+topic:
+  name:
+    input:
+      task1: task1-1
+      task2: task2-1
+      task2-short: task2-2-short
+      task2-long: task2-2-long
+      task3: task3-1
+    output:
+      task1: task1-2
+      task2: task2-2
+      task2-short: task2-2-short
+      task2-long: task2-2-long
+      task3: task3-2
