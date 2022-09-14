@@ -33,7 +33,8 @@ topic:
       task2: task2-1
       task2-short: task2-2-short
       task2-long: task2-2-long
-      task3: task3-1
+      task3-1: task3-1
+      task3-2: task3-2
     output:
       task1: task1-2
       task2: task2-2
